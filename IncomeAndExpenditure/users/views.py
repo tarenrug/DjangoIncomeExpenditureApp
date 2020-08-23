@@ -8,7 +8,7 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-
+            form.save()
             myuser = MyUserProfile()
             myuser.first_name = form.cleaned_data.get('first_name')
             myuser.last_name = form.cleaned_data.get('last_name')
@@ -21,10 +21,10 @@ def register(request):
             myuser.postcode = form.cleaned_data.get('postcode')
             myuser.username = form.cleaned_data.get('username')
             
+            messages.success(request, f'Your account has been created! You are now able to login as {myuser.username}')
+
             myuser.save()
-            form.save()
-            messages.success(request, f'Your account has been created! You are now able to login as')
-            return redirect('frontend-home')
+            return redirect('login')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
