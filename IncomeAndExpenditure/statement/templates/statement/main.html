@@ -1,5 +1,14 @@
 {% extends "frontend/base.html" %}
 {% block content %}
-<h1>Here you will see a completed income expenditure form.</h1>
-
+<div class="row">
+    <div class="col-md-8">
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+          {% endfor %}
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}

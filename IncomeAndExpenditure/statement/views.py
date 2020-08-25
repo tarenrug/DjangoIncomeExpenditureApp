@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth.models import User
 from .form import IncomeExpenditureForm
 from .models import IncomeExpenditureStatement
@@ -10,8 +11,8 @@ def IncomeExpenditure(request):
       statementform = IncomeExpenditureForm(request.POST)
       if statementform.is_valid():
          statementform.save()
-         IncomeExpenditureStatement.objects.filter(author=request.user).author = request.user
-         IncomeExpenditureStatement.objects.filter(author=request.user).author_id = request.user.id
+         #IncomeExpenditureStatement.objects.filter(author=request.user).author = request.user
+         #IncomeExpenditureStatement.objects.filter(author=request.user).author_id = request.user.id
          # statement = IncomeExpenditureStatement()
          # statement.salary = statementform.cleaned_data.get('salary')
          # statement.other = statementform.cleaned_data.get('other')
