@@ -8,7 +8,12 @@ from .models import IncomeExpenditureStatement
 @login_required
 def IncomeExpenditure(request):
    if request.method == 'POST':
-      statementform = IncomeExpenditureForm(request.POST)
+      try:
+         I = IncomeExpenditureStatement.objects.get(author=request.user)
+         statementform = IncomeExpenditureForm(request.POST,instance=I)
+      except IncomeExpenditureStatement.DoesNotExist:
+         statementform = IncomeExpenditureForm(request.POST)
+      statementform.instance.author=request.user
       if statementform.is_valid():
          statementform.save()
          #IncomeExpenditureStatement.objects.filter(author=request.user).author = request.user
