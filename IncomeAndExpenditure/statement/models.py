@@ -6,7 +6,7 @@ class IncomeExpenditureStatement(models.Model):
     other = models.IntegerField(default=0)
     mortgage = models.IntegerField(default=0)
     rent = models.IntegerField(default=0)
-    utilites = models.IntegerField(default=0)
+    utilities = models.IntegerField(default=0)
     travel = models.IntegerField(default=0)
     food = models.IntegerField(default=0)
     loans = models.IntegerField(default=0)
