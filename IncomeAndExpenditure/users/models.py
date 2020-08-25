@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class MyUserProfile(models.Model):
     first_name = models.CharField(max_length=100)
@@ -11,6 +12,7 @@ class MyUserProfile(models.Model):
     city = models.CharField(max_length=100)
     postcode = models.CharField(max_length=10)
     username = models.CharField(max_length=100)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.username

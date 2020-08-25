@@ -1,18 +1,17 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 
-class IncomeForm(UserCreationForm):
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    phone_number = forms.CharField(max_length=14)
-    date_of_birth = forms.DateField()
-    address_line_1 = forms.CharField(max_length=100)
-    address_line_2 = forms.CharField(max_length=100)
-    city = forms.CharField(max_length=100)
-    postcode = forms.CharField(max_length=10)
+class IncomeExpenditureForm(forms.Form):
+    salary = forms.IntegerField(max_value=1000000000000)
+    other = forms.IntegerField(max_value=1000000000000)
+    mortgage = forms.IntegerField(max_value=1000000000000)
+    rent = forms.IntegerField(max_value=1000000000000)
+    utilites = forms.IntegerField(max_value=1000000000000)
+    travel = forms.IntegerField(max_value=1000000000000)
+    food = forms.IntegerField(max_value=1000000000000)
+    loans = forms.IntegerField(max_value=1000000000000)
+    credit_cards = forms.IntegerField(max_value=1000000000000)
 
     class Meta:
         model = User
-        fields = ['first_name','last_name','email','phone_number','date_of_birth','address_line_1','address_line_2','city','postcode','username', 'password1', 'password2']
+        fields = ['salary','other','mortgage','rent','utilites','travel','food','loans','credit_cards']
