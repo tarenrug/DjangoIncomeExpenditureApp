@@ -66,7 +66,7 @@ def IncomeExpenditure(request):
          # statement.food = statementform.cleaned_data.get('food')
          # statement.loans = statementform.cleaned_data.get('loans')
          # statement.credit_cards = statementform.cleaned_data.get('credit_cards')
-         messages.success(request, f'Your income and expenditure have been recorded! You edit this by clicking on the Register Statement button.')
+         messages.success(request, f'Your income and expenditure have been recorded! You can edit this by clicking on the Register Statement button.')
          return redirect('statement')
    else:
       statementform = IncomeExpenditureForm()
