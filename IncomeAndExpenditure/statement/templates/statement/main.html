@@ -1,5 +1,8 @@
 {% extends "frontend/base.html" %}
 {% block content %}
+
+<h2>Monthly Income and Expenditure Statement</h2>
+
 <div class="row">
     <div class="col-md-8">
         {% if messages %}
@@ -11,6 +14,8 @@
         {% endif %}
     </div>
 </div>
+<p>
+
 <table style="width:100%">
     <tr>
         <th>Income</th>
@@ -71,6 +76,26 @@
         <td></td>
         <td>Credit Cards</td>
         <td>{{credit_cards}}</td>
+    </tr>
+    <tr>
+        <td><b>Total:</b></td>
+        <td>{{Income}}</td>
+        <td><b>Total:</b></td>
+        <td>{{Expenditure}}</td>
+    </tr>
+  </table>
+</p>
+<p>
+<h5>Total Disposible Income Per Month: £{{Disposible}}</h5>
+</p>
+  <table style="width:100%">
+    <tr>
+        <th>Expenditure-to-Income Ratio</th>
+        <th>Grade</th>
+    </tr>
+    <tr>
+        <td>{{IERating}}%</td>
+        <td>{{Grade}}</td>
     </tr>
   </table>
 {% endblock content %}

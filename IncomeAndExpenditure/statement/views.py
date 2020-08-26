@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView
 from .form import IncomeExpenditureForm
 from .models import IncomeExpenditureStatement
+from .FunctionScript import IEFunction
 
 # class StatementCreateView(CreateView):
 #    model = IncomeExpenditureStatement
@@ -65,11 +66,22 @@ def IncomeExpenditure(request):
          # statement.food = statementform.cleaned_data.get('food')
          # statement.loans = statementform.cleaned_data.get('loans')
          # statement.credit_cards = statementform.cleaned_data.get('credit_cards')
-         messages.success(request, f'Your income and expenditure have been recorded! You can view it by clicking on the statement button.')
+         messages.success(request, f'Your income and expenditure have been recorded! You edit this by clicking on the Register Statement button.')
          return redirect('statement')
    else:
       statementform = IncomeExpenditureForm()
-   return render(request,'statement/IncomeExpenditure.html',{'statementform': statementform})
+
+   form1=[]
+   form2=[]
+   count=0
+   for i in statementform:
+      count+=1
+      if count<=2:
+         form1.append(i)
+      else:
+         form2.append(i)
+
+   return render(request,'statement/IncomeExpenditure.html',{'statementform': statementform,'form1':form1,'form2':form2})
 
 @login_required
 def statement(request):
@@ -83,6 +95,9 @@ def statement(request):
    food = CurrentStatement.food
    loans = CurrentStatement.loans
    credit_cards = CurrentStatement.credit_cards
+
+   (Income,Expenditure,Disposible,IERating,Grade)=IEFunction([salary,other],[mortgage,rent,utilities,travel,food,loans,credit_cards])
+
    context={'salary': salary,
             'other': other,
             'mortgage': mortgage,
@@ -91,7 +106,12 @@ def statement(request):
             'travel': travel,
             'food': food,
             'loans': loans,
-            'credit_cards': credit_cards
+            'credit_cards': credit_cards,
+            'Income': Income,
+            'Expenditure': Expenditure,
+            'Disposible': Disposible,
+            'IERating': IERating,
+            'Grade': Grade
    }
    return render(request,'statement/main.html',context)
 

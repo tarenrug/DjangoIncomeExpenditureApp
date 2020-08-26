@@ -1,23 +1,34 @@
 {% extends "frontend/base2.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="col-md-8">
-        <h1>{{ username }}</h1>
-        <h2>We are passing data from the database! Your first name is {{first_name}}</h2>
-    </div>
+<p>
     <div class="col-md-4">
+        <h2>Welcome {{first_name}}!</h2>
+    </div>
+</p>
+<p>
+    <div class="col-md-8">
         {% if user.is_authenticated %}
         <div class="content-section">
                 <h3>Your Details</h3>
                 <p class='text-muted'>Any issues?
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">Username: {{username}}</li>
+                    <li class="list-group-item list-group-item-light">First Name: {{first_name}}</li>
+                    <li class="list-group-item list-group-item-light">Last Name: {{last_name}}</li>
                     <li class="list-group-item list-group-item-light">Email: {{email}}</li>
                     <li class="list-group-item list-group-item-light">Phone Number: {{phone_number}}</li>
                     <li class="list-group-item list-group-item-light">Date Of Birth: {{date_of_birth}}</li>
+                    <li class="list-group-item list-group-item-light">
+                        Address: {{address_line_1}}
+                        <br> &emsp; &emsp; &emsp; &thinsp; {{address_line_2}}
+                        <br> &emsp; &emsp; &emsp; &thinsp; {{city}}
+                        <br> &emsp; &emsp; &emsp; &thinsp; {{postcode}}
+                    </li>
                 </ul>
                 </p>
         </div>
         {% endif %}
     </div>
+</p>
 {% endblock content %}
