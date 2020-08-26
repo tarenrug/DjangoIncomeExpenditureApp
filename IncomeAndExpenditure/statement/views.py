@@ -21,13 +21,12 @@ def IncomeExpenditure(request):
          messages.success(request, f'Your income and expenditure have been recorded! You can edit this by clicking on the Register Statement button.')
          return redirect('statement')
    else:
-      statementform = IncomeExpenditureForm()
       try:
          current_data = IncomeExpenditureStatement.objects.filter(author=request.user).first()
          statementform = IncomeExpenditureForm(initial={'salary': current_data.salary,'other': current_data.other,'mortgage': current_data.mortgage,
          'rent': current_data.rent,'utilities': current_data.utilities,'travel': current_data.travel,'food': current_data.food,'loans': current_data.loans,
          'credit_cards': current_data.credit_cards})
-      except IncomeExpenditureStatement.DoesNotExist:
+      except AttributeError:
          current_data={}
          statementform = IncomeExpenditureForm()
 
@@ -75,7 +74,7 @@ def statement(request):
                'Grade': Grade
       }
       return render(request,'statement/main.html',context)
-   except NameError:
+   except AttributeError:
       return render(request,'statement/main2.html')
 
 
