@@ -4,7 +4,6 @@
         {% if user.is_authenticated %}
         <div class="content-section">
                 <h3>Welcome {{first_name}}! Your Details:</h3>
-                <p class='text-muted'>Any issues?
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">Username: {{username}}</li>
                     <li class="list-group-item list-group-item-light">First Name: {{first_name}}</li>
@@ -19,7 +18,6 @@
                         <br> &emsp; &emsp; &emsp; &thinsp; {{postcode}}
                     </li>
                 </ul>
-                </p>
         {% endif %}
     </div>
 </p>

@@ -2,10 +2,16 @@ def IEFunction(Income,Expenditure):
     I = sum(Income)
     E = sum(Expenditure)
     D = I-E
+
+    if I<0 or E<0:
+        R = "Please enter a Net Positive Income and a Net Positive Expenditure."
+        Grade="N/A"
+        return I, E, D, R, Grade
+
     try:
         R = round(float(sum(Expenditure))/sum(Income)*100,1)
     except ZeroDivisionError:
-        R = "Error: Please provide some values for your Income to get a Ratio as a "
+        R = "Error: Please provide some values for your Income to get a Ratio."
         Grade = "N/A"
         return I, E, D, R, Grade
     if 50<R:
@@ -16,6 +22,8 @@ def IEFunction(Income,Expenditure):
         Grade ='B'
     elif R<=10:
         Grade = 'A'
+
+    R=str(R)+"%"
 
     return I, E, D, R, Grade
 

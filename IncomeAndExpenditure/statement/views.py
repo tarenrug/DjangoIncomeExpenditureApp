@@ -22,6 +22,14 @@ def IncomeExpenditure(request):
          return redirect('statement')
    else:
       statementform = IncomeExpenditureForm()
+      try:
+         current_data = IncomeExpenditureStatement.objects.filter(author=request.user).first()
+         statementform = IncomeExpenditureForm(initial={'salary': current_data.salary,'other': current_data.other,'mortgage': current_data.mortgage,
+         'rent': current_data.rent,'utilities': current_data.utilities,'travel': current_data.travel,'food': current_data.food,'loans': current_data.loans,
+         'credit_cards': current_data.credit_cards})
+      except IncomeExpenditureStatement.DoesNotExist:
+         current_data={}
+         statementform = IncomeExpenditureForm()
 
    form1=[]
    form2=[]
@@ -33,7 +41,7 @@ def IncomeExpenditure(request):
       else:
          form2.append(i)
 
-   return render(request,'statement/IncomeExpenditure.html',{'statementform': statementform,'form1':form1,'form2':form2})
+   return render(request,'statement/IncomeExpenditure.html',{'statementform': statementform,'form1':form1,'form2':form2,'current_data': current_data})
 
 @login_required
 def statement(request):
@@ -67,7 +75,7 @@ def statement(request):
                'Grade': Grade
       }
       return render(request,'statement/main.html',context)
-   except AttributeError:
+   except NameError:
       return render(request,'statement/main2.html')
 
 
