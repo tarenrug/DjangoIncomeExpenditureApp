@@ -1,16 +1,9 @@
-{% extends "frontend/base2.html" %}
+{% extends "frontend/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<p>
-    <div class="col-md-4">
-        <h2>Welcome {{first_name}}!</h2>
-    </div>
-</p>
-<p>
-    <div class="col-md-8">
         {% if user.is_authenticated %}
         <div class="content-section">
-                <h3>Your Details</h3>
+                <h3>Welcome {{first_name}}! Your Details:</h3>
                 <p class='text-muted'>Any issues?
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">Username: {{username}}</li>
@@ -27,7 +20,6 @@
                     </li>
                 </ul>
                 </p>
-        </div>
         {% endif %}
     </div>
 </p>

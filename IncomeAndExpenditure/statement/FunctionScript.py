@@ -3,7 +3,7 @@ def IEFunction(Income,Expenditure):
     E = sum(Expenditure)
     D = I-E
     try:
-        R = round(float(sum(Expenditure))/sum(Income),3)*100
+        R = round(float(sum(Expenditure))/sum(Income)*100,1)
     except ZeroDivisionError:
         R = "Error: Please provide some values for your Income to get a Ratio as a "
         Grade = "N/A"
@@ -20,8 +20,8 @@ def IEFunction(Income,Expenditure):
     return I, E, D, R, Grade
 
 if __name__ == "__main__":
-    Income = [2800,300]
-    Expenditure = [500,0,100,150,500,1000,400]
+    Income = [3000,500]
+    Expenditure = [500,0,150,150,200,100,100]
     (Output1,Output2,Output3,Output4,Output5) = IEFunction(Income,Expenditure)
     print(Output1)
     print(Output2)

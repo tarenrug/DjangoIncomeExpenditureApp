@@ -7,6 +7,72 @@ from .form import IncomeExpenditureForm
 from .models import IncomeExpenditureStatement
 from .FunctionScript import IEFunction
 
+@login_required
+def IncomeExpenditure(request):
+   if request.method == 'POST':
+      try:
+         I = IncomeExpenditureStatement.objects.get(author=request.user)
+         statementform = IncomeExpenditureForm(request.POST,instance=I)
+      except IncomeExpenditureStatement.DoesNotExist:
+         statementform = IncomeExpenditureForm(request.POST)
+      statementform.instance.author=request.user
+      if statementform.is_valid():
+         statementform.save()
+         messages.success(request, f'Your income and expenditure have been recorded! You can edit this by clicking on the Register Statement button.')
+         return redirect('statement')
+   else:
+      statementform = IncomeExpenditureForm()
+
+   form1=[]
+   form2=[]
+   count=0
+   for i in statementform:
+      count+=1
+      if count<=2:
+         form1.append(i)
+      else:
+         form2.append(i)
+
+   return render(request,'statement/IncomeExpenditure.html',{'statementform': statementform,'form1':form1,'form2':form2})
+
+@login_required
+def statement(request):
+   try:
+      CurrentStatement=IncomeExpenditureStatement.objects.filter(author=request.user).first()
+      salary = CurrentStatement.salary
+      other = CurrentStatement.other
+      mortgage = CurrentStatement.mortgage
+      rent = CurrentStatement.rent
+      utilities = CurrentStatement.utilities
+      travel = CurrentStatement.travel
+      food = CurrentStatement.food
+      loans = CurrentStatement.loans
+      credit_cards = CurrentStatement.credit_cards
+
+      (Income,Expenditure,Disposible,IERating,Grade)=IEFunction([salary,other],[mortgage,rent,utilities,travel,food,loans,credit_cards])
+
+      context={'salary': salary,
+               'other': other,
+               'mortgage': mortgage,
+               'rent': rent,
+               'utilities': utilities,
+               'travel': travel,
+               'food': food,
+               'loans': loans,
+               'credit_cards': credit_cards,
+               'Income': Income,
+               'Expenditure': Expenditure,
+               'Disposible': Disposible,
+               'IERating': IERating,
+               'Grade': Grade
+      }
+      return render(request,'statement/main.html',context)
+   except AttributeError:
+      return render(request,'statement/main2.html')
+
+
+# Attempt with Class Based view
+
 # class StatementCreateView(CreateView):
 #    model = IncomeExpenditureStatement
 #    template_name='statement/IncomeExpenditure.html'
@@ -42,76 +108,4 @@ from .FunctionScript import IEFunction
 #       form.instance.author = self.request.user
 #       return super().form_valid(form)
 
-
-@login_required
-def IncomeExpenditure(request):
-   if request.method == 'POST':
-      try:
-         I = IncomeExpenditureStatement.objects.get(author=request.user)
-         statementform = IncomeExpenditureForm(request.POST,instance=I)
-      except IncomeExpenditureStatement.DoesNotExist:
-         statementform = IncomeExpenditureForm(request.POST)
-      statementform.instance.author=request.user
-      if statementform.is_valid():
-         statementform.save()
-         #IncomeExpenditureStatement.objects.filter(author=request.user).author = request.user
-         #IncomeExpenditureStatement.objects.filter(author=request.user).author_id = request.user.id
-         # statement = IncomeExpenditureStatement()
-         # statement.salary = statementform.cleaned_data.get('salary')
-         # statement.other = statementform.cleaned_data.get('other')
-         # statement.mortgage = statementform.cleaned_data.get('mortgage')
-         # statement.rent = statementform.cleaned_data.get('rent')
-         # statement.utilities = statementform.cleaned_data.get('utilities')
-         # statement.travel = statementform.cleaned_data.get('travel')
-         # statement.food = statementform.cleaned_data.get('food')
-         # statement.loans = statementform.cleaned_data.get('loans')
-         # statement.credit_cards = statementform.cleaned_data.get('credit_cards')
-         messages.success(request, f'Your income and expenditure have been recorded! You can edit this by clicking on the Register Statement button.')
-         return redirect('statement')
-   else:
-      statementform = IncomeExpenditureForm()
-
-   form1=[]
-   form2=[]
-   count=0
-   for i in statementform:
-      count+=1
-      if count<=2:
-         form1.append(i)
-      else:
-         form2.append(i)
-
-   return render(request,'statement/IncomeExpenditure.html',{'statementform': statementform,'form1':form1,'form2':form2})
-
-@login_required
-def statement(request):
-   CurrentStatement=IncomeExpenditureStatement.objects.filter(author=request.user).first()
-   salary = CurrentStatement.salary
-   other = CurrentStatement.other
-   mortgage = CurrentStatement.mortgage
-   rent = CurrentStatement.rent
-   utilities = CurrentStatement.utilities
-   travel = CurrentStatement.travel
-   food = CurrentStatement.food
-   loans = CurrentStatement.loans
-   credit_cards = CurrentStatement.credit_cards
-
-   (Income,Expenditure,Disposible,IERating,Grade)=IEFunction([salary,other],[mortgage,rent,utilities,travel,food,loans,credit_cards])
-
-   context={'salary': salary,
-            'other': other,
-            'mortgage': mortgage,
-            'rent': rent,
-            'utilities': utilities,
-            'travel': travel,
-            'food': food,
-            'loans': loans,
-            'credit_cards': credit_cards,
-            'Income': Income,
-            'Expenditure': Expenditure,
-            'Disposible': Disposible,
-            'IERating': IERating,
-            'Grade': Grade
-   }
-   return render(request,'statement/main.html',context)
 

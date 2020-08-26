@@ -5,4 +5,4 @@ from .models import IncomeExpenditureStatement
 class IncomeExpenditureForm(forms.ModelForm):
     class Meta:
         model = IncomeExpenditureStatement
-        fields = ['salary','other','mortgage','rent','utilities','travel','food','loans','credit_cards','author']
+        fields = ['salary','other','mortgage','rent','utilities','travel','food','loans','credit_cards']
