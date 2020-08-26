@@ -7,7 +7,7 @@ class UserRegisterForm(UserCreationForm):
     last_name = forms.CharField(max_length=100)
     email = forms.EmailField()
     phone_number = forms.CharField(max_length=14)
-    date_of_birth = forms.DateField()
+    date_of_birth = forms.DateField(label="Date of Birth (DD/MM/YYYY)",input_formats=['%d/%m/%Y'])
     address_line_1 = forms.CharField(max_length=100)
     address_line_2 = forms.CharField(max_length=100)
     city = forms.CharField(max_length=100)
